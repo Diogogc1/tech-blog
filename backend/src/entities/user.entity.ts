@@ -12,7 +12,7 @@ export class User {
   email!: string;
 
   @Property({ unique: true })
-  senha!: string;
+  password!: string;
 
   @Property({ default: new Date().toISOString() })
   createdAt = new Date();
