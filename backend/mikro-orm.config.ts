@@ -4,7 +4,7 @@ import { ArticleTag } from 'src/entities/article-tag.entity';
 import { Tag } from 'src/entities/tag.entity';
 import { User } from 'src/entities/user.entity';
 import { MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import { Migrator } from '@mikro-orm/migrations';
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { SeedManager } from '@mikro-orm/seeder';

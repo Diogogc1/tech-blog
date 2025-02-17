@@ -1,6 +1,8 @@
 import { EntityManager, EntityRepository } from '@mikro-orm/core';
+import { Injectable} from '@nestjs/common';
 import { Article } from 'src/entities/article.entity';
 
+@Injectable()
 export default class ArticleRepository {
   private articleRepo: EntityRepository<Article>;
 
@@ -8,23 +10,28 @@ export default class ArticleRepository {
     this.articleRepo = this.em.getRepository(Article);
   }
 
-  async create(data: any) {
-    return this.em.persistAndFlush(this.articleRepo.create(data));
+  async create(article: Article): Promise<Article> {
+    await this.em.persistAndFlush(article);
+    return article;
   }
 
-  async findAll() {
-    return this.articleRepo.find({});
+  async findAll(): Promise<Article[]> {
+    return this.articleRepo.find({status: true});
   }
 
-  async findOne(id: number) {
-    return this.articleRepo.findOne({ id });
+  async findOne(id: number): Promise<Article | null> {
+    return this.articleRepo.findOne({ id, status: true });
   }
 
-  async update(id: number, data: any) {
-    return this.articleRepo.nativeUpdate({ id }, data);
+  async update(id: number, data: any): Promise<number> {
+    return this.articleRepo.nativeUpdate({ id, status: true }, data);
   }
 
-  async delete(id: number) {
-    return this.articleRepo.nativeDelete({ id });
+  async delete(id: number): Promise<number> {
+    return this.articleRepo.nativeUpdate({ id, status: true }, { status: false });
+  }
+
+  async search(title: string): Promise<Article[]> { 
+    return this.articleRepo.find({ title: { $like: `%${title}%` } });
   }
 }
