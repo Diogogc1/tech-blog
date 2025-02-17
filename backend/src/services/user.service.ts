@@ -7,7 +7,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) { }
+  constructor(private readonly userRepository: UserRepository) {}
 
   async create(userPayload: UserPayload): Promise<UserResponse> {
     const hashedPassword = await bcrypt.hash(userPayload.password, 10);
@@ -20,7 +20,9 @@ export class UserService {
 
   async findAll() {
     const users = await this.userRepository.findAll();
-    const userResponses: UserResponse[] = users.map((user) => new UserResponse(user));
+    const userResponses: UserResponse[] = users.map(
+      (user) => new UserResponse(user),
+    );
     return userResponses;
   }
 

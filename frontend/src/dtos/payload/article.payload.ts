@@ -1,15 +1,15 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger';
 
 export default class ArticlePayload {
   @ApiProperty()
-  title: string;
+  title!: string;
 
   @ApiProperty()
-  content: string;
+  content!: string;
 
   @ApiProperty()
-  tags: number[];
+  tags!: number[];
 
   @ApiProperty()
-  authorId: number;
+  authorId!: number;
 }

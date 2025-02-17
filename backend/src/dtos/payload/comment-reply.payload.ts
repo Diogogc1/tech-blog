@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export default class UserPayload {
+export default class CommentReplyPayload {
   @ApiProperty()
-  name: string;
+  content: string;
 
   @ApiProperty()
-  email: string;
+  userId: number;
 
   @ApiProperty()
-  password: string;
+  commentId: number;
 }

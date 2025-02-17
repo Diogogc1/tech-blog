@@ -1,47 +1,38 @@
-const API_URL = 'http://localhost:3000/article';
+import ArticlePayload from "@/dtos/payload/article.payload";
+import api from "./api.service";
+import ArticleResponse from "@/dtos/response/article.response";
 
 export class ArticleService {
-	async create(articlePayload: any): Promise<any> {
-		const response = await fetch(API_URL, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(articlePayload),
-		});
-		return response.json();
-	}
+  async create(articlePayload: ArticlePayload): Promise<ArticleResponse> {
+    const response = await api.post("/article", articlePayload);
+    return response.data;
+  }
 
-	async findAll(): Promise<any[]> {
-		const response = await fetch(API_URL);
-		return response.json();
-	}
+  async findAll(): Promise<ArticleResponse[]> {
+    const response = await api.get("/article");
+    return response.data;
+  }
 
-	async findOne(id: number): Promise<any> {
-		const response = await fetch(`${API_URL}/${id}`);
-		return response.json();
-	}
+  async findOne(id: number): Promise<ArticleResponse> {
+    const response = await api.get(`/article/${id}`);
+    return response.data;
+  }
 
-	async update(id: number, articlePayload: any): Promise<any> {
-		const response = await fetch(`${API_URL}/${id}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(articlePayload),
-		});
-		return response.json();
-	}
+  async update(
+    id: number,
+    articlePayload: ArticlePayload
+  ): Promise<ArticleResponse> {
+    const response = await api.put(`/article/${id}`, articlePayload);
+    return response.data;
+  }
 
-	async delete(id: number): Promise<any> {
-		const response = await fetch(`${API_URL}/${id}`, {
-			method: 'DELETE',
-		});
-		return response.json();
-	}
+  async delete(id: number): Promise<ArticleResponse> {
+    const response = await api.delete(`/article/${id}`);
+    return response.data;
+  }
 
-	async search(title: string): Promise<any[]> {
-		const response = await fetch(`${API_URL}/search/${title}`);
-		return response.json();
-	}
+  async search(title: string): Promise<ArticleResponse[]> {
+    const response = await api.get(`/article/search/${title}`);
+    return response.data;
+  }
 }

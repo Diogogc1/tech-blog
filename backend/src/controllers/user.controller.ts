@@ -1,12 +1,20 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { ApiBody } from "@nestjs/swagger";
-import UserPayload from "src/dtos/payload/user.payload";
-import UserResponse from "src/dtos/response/user.response";
-import { UserService } from "src/services/user.service";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { ApiBody } from '@nestjs/swagger';
+import UserPayload from 'src/dtos/payload/user.payload';
+import UserResponse from 'src/dtos/response/user.response';
+import { UserService } from 'src/services/user.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   @ApiBody({ type: UserPayload })
@@ -27,7 +35,7 @@ export class UserController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() userPayload: UserPayload
+    @Body() userPayload: UserPayload,
   ): Promise<number> {
     return this.userService.update(Number(id), userPayload);
   }

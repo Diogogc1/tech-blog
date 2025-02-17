@@ -15,11 +15,11 @@ export class User {
   @Property({ unique: true })
   password!: string;
 
-  @Property({ default: new Date().toISOString() })
+  @Property({ onCreate: () => new Date() })
   createdAt: Date;
 
-  @Property({default: true})
-  status: boolean
+  @Property({ default: true })
+  status: boolean;
 
   static create(userPayload: UserPayload) {
     const user = new User();

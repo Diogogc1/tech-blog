@@ -38,4 +38,4 @@ import { ArticleTagController } from './controllers/article-tag.controller';
     ArticleTagRepository,
   ],
 })
-export class AppModule { }
+export class AppModule {}

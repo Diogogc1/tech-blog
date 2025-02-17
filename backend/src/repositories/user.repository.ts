@@ -17,7 +17,7 @@ export default class UserRepository {
   }
 
   async findAll(): Promise<User[]> {
-    return this.userRepo.find({status: true});
+    return this.userRepo.find({ status: true });
   }
 
   async findOne(id: number): Promise<User | null> {
@@ -29,6 +29,6 @@ export default class UserRepository {
   }
 
   async delete(id: number): Promise<number> {
-    return this.userRepo.nativeUpdate({ id, status: true }, {status: false});
+    return this.userRepo.nativeUpdate({ id, status: true }, { status: false });
   }
 }

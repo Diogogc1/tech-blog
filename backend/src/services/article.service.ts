@@ -1,29 +1,30 @@
 import ArticlePayload from 'src/dtos/payload/article.payload';
 import ArticleRepository from 'src/repositories/article.repository';
-import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import ArticleResponse from 'src/dtos/response/article.response';
 import { Article } from 'src/entities/article.entity';
-import { UserService } from './user.service';
 import { ArticleTagService } from './article-tag.service';
-import { User } from 'src/entities/user.entity';
-import { EntityManager } from '@mikro-orm/core';
+import { UserService } from './user.service';
 
 @Injectable()
 export class ArticleService {
   constructor(
     private readonly articleRepository: ArticleRepository,
     private readonly userService: UserService,
-    private readonly em: EntityManager,
 
     @Inject(forwardRef(() => ArticleTagService))
     private readonly articleTagService: ArticleTagService,
-  ) { }
+  ) {}
 
   async create(articlePayload: ArticlePayload): Promise<ArticleResponse> {
     await this.userService.findById(articlePayload.authorId);
-    const authorReference = this.em.getReference(User, articlePayload.authorId);
 
-    const article = Article.create(articlePayload, authorReference);
+    const article = Article.create(articlePayload);
 
     const response = await this.articleRepository.create(article);
 
@@ -41,7 +42,9 @@ export class ArticleService {
 
   async findAll(): Promise<ArticleResponse[]> {
     const articles = await this.articleRepository.findAll();
-    const articleResponse: ArticleResponse[] = articles.map((article) => new ArticleResponse(article));
+    const articleResponse: ArticleResponse[] = articles.map(
+      (article) => new ArticleResponse(article),
+    );
     return articleResponse;
   }
 
@@ -57,8 +60,7 @@ export class ArticleService {
   }
 
   async update(id: number, articlePayload: ArticlePayload): Promise<number> {
-    const authorReference = this.em.getReference(User, articlePayload.authorId);
-    const article = Article.create(articlePayload, authorReference);
+    const article = Article.create(articlePayload);
 
     await this.findOne(id);
 
@@ -76,7 +78,9 @@ export class ArticleService {
 
   async search(title: string): Promise<ArticleResponse[]> {
     const articles = await this.articleRepository.search(title);
-    const articleResponse: ArticleResponse[] = articles.map((article) => new ArticleResponse(article));
+    const articleResponse: ArticleResponse[] = articles.map(
+      (article) => new ArticleResponse(article),
+    );
     return articleResponse;
   }
 }

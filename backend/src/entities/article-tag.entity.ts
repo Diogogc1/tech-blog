@@ -17,10 +17,14 @@ export class ArticleTag {
   @Property({ default: true })
   status: boolean;
 
-  @Property({ default: new Date().toISOString() })
+  @Property({ onCreate: () => new Date() })
   createdAt: Date;
 
-  static create(articleTagPayload: ArticleTagPayload, article: Article, tag: Tag): ArticleTag {
+  static create(
+    articleTagPayload: ArticleTagPayload,
+    article: Article,
+    tag: Tag,
+  ): ArticleTag {
     const articleTag = new ArticleTag();
     articleTag.tag = tag;
     articleTag.article = article;

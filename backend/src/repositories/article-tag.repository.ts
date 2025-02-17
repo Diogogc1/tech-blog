@@ -37,6 +37,9 @@ export default class ArticleTagRepository {
   }
 
   async delete(id: number): Promise<number> {
-    return this.articleTagRepo.nativeUpdate({ id, status: true }, { status: false });
+    return this.articleTagRepo.nativeUpdate(
+      { id, status: true },
+      { status: false },
+    );
   }
 }

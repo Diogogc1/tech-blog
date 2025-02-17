@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export default class ArticleTagPayload {
+export default class CommentPayload {
   @ApiProperty()
-  articleId: number;
+  content: string;
 
   @ApiProperty()
-  tagId: number;
+  userId: number;
 }
