@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export default class ArticlePayload {
   @ApiProperty()
@@ -7,7 +7,7 @@ export default class ArticlePayload {
   @ApiProperty()
   content: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: [Number] })
   tags: number[];
 
   @ApiProperty()

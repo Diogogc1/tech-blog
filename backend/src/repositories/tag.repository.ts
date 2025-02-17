@@ -1,5 +1,6 @@
 import { EntityManager, EntityRepository } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
+import TagPayload from 'src/dtos/payload/tag.payload';
 import { Tag } from 'src/entities/tag.entity';
 
 @Injectable()
@@ -12,11 +13,11 @@ export default class TagRepository {
 
   async create(data: Tag): Promise<Tag> {
     const tag = Tag.create(data);
-    await this.em.persistAndFlush(data);
-    return data;
+    await this.em.persistAndFlush(tag);
+    return tag;
   }
 
-  async findAll(): Promise<Tag[]>{
+  async findAll(): Promise<Tag[]> {
     return this.tagRepo.find({});
   }
 
@@ -24,7 +25,7 @@ export default class TagRepository {
     return this.tagRepo.findOne({ id });
   }
 
-  async update(id: number, data: any): Promise<number> {
+  async update(id: number, data: TagPayload): Promise<number> {
     return this.tagRepo.nativeUpdate({ id, status: true }, data);
   }
 

@@ -9,7 +9,7 @@ export class Tag {
   @Property()
   name: string;
 
-  @Property({ default: new Date().toISOString() })
+  @Property({ onCreate: () => new Date() })
   createdAt: Date;
 
   @Property({ default: true })

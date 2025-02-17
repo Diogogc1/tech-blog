@@ -1,6 +1,11 @@
 import TagPayload from 'src/dtos/payload/tag.payload';
 import TagRepository from 'src/repositories/tag.repository';
-import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import TagResponse from 'src/dtos/response/tag.response';
 import { Tag } from 'src/entities/tag.entity';
 import { ArticleTagService } from './article-tag.service';
@@ -12,7 +17,7 @@ export class TagService {
 
     @Inject(forwardRef(() => ArticleTagService))
     private readonly articleTagService: ArticleTagService,
-  ) { }
+  ) {}
 
   async create(tagPayload: TagPayload): Promise<TagResponse> {
     const tag = Tag.create(tagPayload);
@@ -30,7 +35,7 @@ export class TagService {
   async findOne(id: number): Promise<TagResponse> {
     const tag = await this.tagRepository.findOne(id);
 
-    if(!tag) {
+    if (!tag) {
       throw new NotFoundException(`Tag with ID ${id} not found`);
     }
 

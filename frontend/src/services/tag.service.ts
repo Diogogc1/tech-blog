@@ -1,44 +1,32 @@
-const API_URL = 'http://localhost:3001/tag';
+import TagPayload from "@/dtos/payload/tag.payload";
+import api from "./api.service";
+import TagResponse from "@/dtos/response/tag.response";
 
-class TagService {
-	async create(tagPayload: any): Promise<any> {
-		const response = await fetch(API_URL, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(tagPayload),
-		});
-		return response.json();
-	}
+export class TagService {
+  async create(tagPayload: TagPayload): Promise<TagResponse> {
+    const response = await api.post("/tag", tagPayload);
+    return response.data;
+  }
 
-	async findAll(): Promise<any[]> {
-		const response = await fetch(API_URL);
-		return response.json();
-	}
+  async findAll(): Promise<TagResponse[]> {
+    const response = await api.get("/tag");
+    return response.data;
+  }
 
-	async findOne(id: number): Promise<any> {
-		const response = await fetch(`${API_URL}/${id}`);
-		return response.json();
-	}
+  async findOne(id: number): Promise<TagResponse> {
+    const response = await api.get(`/tag/${id}`);
+    return response.data;
+  }
 
-	async update(id: number, tagPayload: any): Promise<any> {
-		const response = await fetch(`${API_URL}/${id}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(tagPayload),
-		});
-		return response.json();
-	}
+  async update(id: number, tagPayload: TagPayload): Promise<TagResponse> {
+    const response = await api.put(`/tag/${id}`, tagPayload);
+    return response.data;
+  }
 
-	async delete(id: number): Promise<any> {
-		const response = await fetch(`${API_URL}/${id}`, {
-			method: 'DELETE',
-		});
-		return response.json();
-	}
+  async delete(id: number): Promise<TagResponse> {
+    const response = await api.delete(`/tag/${id}`);
+    return response.data;
+  }
 }
 
 const tagService = new TagService();

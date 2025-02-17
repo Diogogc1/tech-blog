@@ -1,4 +1,4 @@
-import { Tag } from "src/entities/tag.entity";
+import { Tag } from 'src/entities/tag.entity';
 
 export default class TagResponse {
   id: number;

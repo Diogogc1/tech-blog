@@ -1,5 +1,5 @@
 import { EntityManager, EntityRepository } from '@mikro-orm/core';
-import { Injectable} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Article } from 'src/entities/article.entity';
 
 @Injectable()
@@ -15,8 +15,8 @@ export default class ArticleRepository {
     return article;
   }
 
-  async findAll(): Promise<Article[]> {
-    return this.articleRepo.find({status: true});
+  async findAll(): Promise<[Article[], number]> {
+    return this.articleRepo.findAndCount({ status: true }, { limit: 10, offset: 10 * /*pageAtual - 1*/  });
   }
 
   async findOne(id: number): Promise<Article | null> {
@@ -28,10 +28,13 @@ export default class ArticleRepository {
   }
 
   async delete(id: number): Promise<number> {
-    return this.articleRepo.nativeUpdate({ id, status: true }, { status: false });
+    return this.articleRepo.nativeUpdate(
+      { id, status: true },
+      { status: false },
+    );
   }
 
-  async search(title: string): Promise<Article[]> { 
+  async search(title: string): Promise<Article[]> {
     return this.articleRepo.find({ title: { $like: `%${title}%` } });
   }
 }

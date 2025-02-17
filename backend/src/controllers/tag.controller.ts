@@ -1,12 +1,20 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { ApiBody } from "@nestjs/swagger";
-import TagPayload from "src/dtos/payload/tag.payload";
-import TagResponse from "src/dtos/response/tag.response";
-import { TagService } from "src/services/tag.service";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import { ApiBody } from '@nestjs/swagger';
+import TagPayload from 'src/dtos/payload/tag.payload';
+import TagResponse from 'src/dtos/response/tag.response';
+import { TagService } from 'src/services/tag.service';
 
 @Controller('tag')
 export class TagController {
-  constructor(private readonly tagService: TagService) { }
+  constructor(private readonly tagService: TagService) {}
 
   @Post()
   @ApiBody({ type: TagPayload })
@@ -27,7 +35,7 @@ export class TagController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() tagPayload: TagPayload
+    @Body() tagPayload: TagPayload,
   ): Promise<number> {
     return this.tagService.update(Number(id), tagPayload);
   }
