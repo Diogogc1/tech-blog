@@ -1,6 +1,8 @@
 import { EntityManager, EntityRepository } from '@mikro-orm/core';
+import { Injectable } from '@nestjs/common';
 import { Tag } from 'src/entities/tag.entity';
 
+@Injectable()
 export default class TagRepository {
   private tagRepo: EntityRepository<Tag>;
 
@@ -8,23 +10,25 @@ export default class TagRepository {
     this.tagRepo = this.em.getRepository(Tag);
   }
 
-  async create(data: any) {
-    return this.em.persistAndFlush(this.tagRepo.create(data));
+  async create(data: Tag): Promise<Tag> {
+    const tag = Tag.create(data);
+    await this.em.persistAndFlush(data);
+    return data;
   }
 
-  async findAll() {
+  async findAll(): Promise<Tag[]>{
     return this.tagRepo.find({});
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<Tag | null> {
     return this.tagRepo.findOne({ id });
   }
 
-  async update(id: number, data: any) {
-    return this.tagRepo.nativeUpdate({ id }, data);
+  async update(id: number, data: any): Promise<number> {
+    return this.tagRepo.nativeUpdate({ id, status: true }, data);
   }
 
-  async delete(id: number) {
-    return this.tagRepo.nativeDelete({ id });
+  async delete(id: number): Promise<number> {
+    return this.tagRepo.nativeUpdate({ id, status: true }, { status: false });
   }
 }
