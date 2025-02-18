@@ -45,10 +45,8 @@ export default function Search() {
 
 	const fetchArticlesByTag = useCallback(async (tagId: number) => {
 		try {
-			console.log("tagId", tagId);
 			const response = await articleTagService.findByTagId(tagId);
 
-			console.log("response", response[0].article);
 			const articles = response.map((articleTag) => articleTag.article);
 			setArticles(articles);
 			setTotalPages(1);
@@ -85,7 +83,7 @@ export default function Search() {
 	};
 
 	return (
-		<div className="max-w-4xl mx-auto p-6">
+		<div className="w-screen px-56 mx-auto p-6">
 			<header className="flex justify-between items-center mb-6">
 				<h1 className="text-3xl font-bold">Todos os artigos</h1>
 				<button className="bg-green-600 text-white px-4 py-2 rounded-lg">Criar artigo</button>
