@@ -7,7 +7,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository) { }
 
   async create(userPayload: UserPayload): Promise<UserResponse> {
     const hashedPassword = await bcrypt.hash(userPayload.password, 10);
@@ -30,6 +30,16 @@ export class UserService {
     const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
+    const userResponse = new UserResponse(user);
+    return userResponse;
+  }
+
+  async findByEmail(email: string): Promise<UserResponse> {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) {
+      throw new NotFoundException(`User with email ${email} not found`);
     }
 
     const userResponse = new UserResponse(user);

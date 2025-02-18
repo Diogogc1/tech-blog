@@ -15,9 +15,10 @@ import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
 import { ArticleController } from './controllers/article.controller';
 import { ArticleTagController } from './controllers/article-tag.controller';
+import { AuthModule } from './auth.module';
 
 @Module({
-  imports: [MikroOrmModule.forRoot(config)],
+  imports: [MikroOrmModule.forRoot(config), AuthModule],
   controllers: [
     AppController,
     UserController,

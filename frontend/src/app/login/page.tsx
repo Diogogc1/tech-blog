@@ -1,5 +1,6 @@
 "use client"
 
+import authService from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -8,10 +9,15 @@ export default function Login() {
 	const [password, setPassword] = useState("");
 	const router = useRouter();
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		console.log("Email:", email, "Senha:", password);
-		router.push("/search");
+		try {
+			const result = await authService.login({ email, password });
+			localStorage.setItem("token", result.access_token); 
+			router.push("/search");
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	return (
