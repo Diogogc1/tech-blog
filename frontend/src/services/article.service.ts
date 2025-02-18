@@ -8,8 +8,8 @@ export class ArticleService {
     return response.data;
   }
 
-  async findAll(): Promise<ArticleResponse[]> {
-    const response = await api.get("/article");
+  async findAll(pageAtual: number): Promise<{ articleResponse: ArticleResponse[], total: number }> {
+    const response = await api.get(`/article/pages/${pageAtual}`);
     return response.data;
   }
 
@@ -36,3 +36,7 @@ export class ArticleService {
     return response.data;
   }
 }
+
+
+const articleService = new ArticleService();
+export default articleService;

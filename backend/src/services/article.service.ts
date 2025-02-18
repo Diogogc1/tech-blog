@@ -19,7 +19,7 @@ export class ArticleService {
 
     @Inject(forwardRef(() => ArticleTagService))
     private readonly articleTagService: ArticleTagService,
-  ) {}
+  ) { }
 
   async create(articlePayload: ArticlePayload): Promise<ArticleResponse> {
     await this.userService.findById(articlePayload.authorId);
@@ -40,12 +40,12 @@ export class ArticleService {
     return articleResponse;
   }
 
-  async findAll(): Promise<ArticleResponse[]> {
-    const articles = await this.articleRepository.findAll();
+  async findAll(pageAtual: number): Promise<{ articleResponse: ArticleResponse[], total: number }> {
+    const [articles, total] = await this.articleRepository.findAll(pageAtual);
     const articleResponse: ArticleResponse[] = articles.map(
       (article) => new ArticleResponse(article),
     );
-    return articleResponse;
+    return { articleResponse, total };
   }
 
   async findOne(id: number): Promise<ArticleResponse> {

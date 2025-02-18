@@ -35,6 +35,7 @@
     "@mikro-orm/sqlite": "^6.4.5",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/jwt": "^11.0.0",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/platform-fastify": "^11.0.9",
     "@nestjs/swagger": "^11.0.3",

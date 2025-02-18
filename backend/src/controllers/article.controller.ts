@@ -14,7 +14,7 @@ import { ArticleService } from 'src/services/article.service';
 
 @Controller('article')
 export class ArticleController {
-  constructor(private readonly articleService: ArticleService) {}
+  constructor(private readonly articleService: ArticleService) { }
 
   @Post()
   @ApiBody({ type: ArticlePayload })
@@ -22,9 +22,9 @@ export class ArticleController {
     return this.articleService.create(articlePayload);
   }
 
-  @Get()
-  getAll(): Promise<ArticleResponse[]> {
-    return this.articleService.findAll();
+  @Get('/pages/:pageAtual')
+  getAll(@Param('pageAtual') pageAtual: string): Promise<{ articleResponse: ArticleResponse[], total: number }> {
+    return this.articleService.findAll(Number(pageAtual));
   }
 
   @Get(':id')

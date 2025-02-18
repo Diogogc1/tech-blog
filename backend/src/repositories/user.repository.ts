@@ -24,6 +24,10 @@ export default class UserRepository {
     return this.userRepo.findOne({ id, status: true });
   }
 
+  async findByEmail(email: string): Promise<User | null> {
+    return this.userRepo.findOne({ email: email, status: true });
+  }
+
   async update(id: number, data: User): Promise<number> {
     return this.userRepo.nativeUpdate({ id, status: true }, data);
   }
