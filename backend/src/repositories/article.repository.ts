@@ -16,7 +16,7 @@ export default class ArticleRepository {
   }
 
   async findAll(pageAtual: number): Promise<[Article[], number]> {
-    return this.articleRepo.findAndCount({ status: true }, { limit: 3, offset: 3 * (pageAtual - 1)  });
+    return this.articleRepo.findAndCount({ status: true }, { limit: 3, offset: 3 * (pageAtual - 1) });
   }
 
   async findOne(id: number): Promise<Article | null> {
@@ -35,6 +35,6 @@ export default class ArticleRepository {
   }
 
   async search(title: string): Promise<Article[]> {
-    return this.articleRepo.find({ title: { $like: `%${title}%` } });
+    return this.articleRepo.find({ title: { $like: `%${title}%` }, status: true });
   }
 }

@@ -9,12 +9,13 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(private readonly userRepository: UserRepository) { }
 
-  async create(userPayload: UserPayload): Promise<UserResponse> {
+  async create(userPayload: UserPayload): Promise<Omit<UserResponse, 'password'>> {
     const hashedPassword = await bcrypt.hash(userPayload.password, 10);
 
     const user = User.create({ ...userPayload, password: hashedPassword });
     const response = await this.userRepository.create(user);
-    const userResponse: UserResponse = response;
+
+    const { password, ...userResponse } = response;
     return userResponse;
   }
 

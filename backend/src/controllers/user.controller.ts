@@ -14,11 +14,11 @@ import { UserService } from 'src/services/user.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Post()
   @ApiBody({ type: UserPayload })
-  create(@Body() userPayload: UserPayload): Promise<UserResponse> {
+  create(@Body() userPayload: UserPayload): Promise<Omit<UserResponse, 'password'>> {
     return this.userService.create(userPayload);
   }
 
