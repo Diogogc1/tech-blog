@@ -24,7 +24,7 @@ export class ArticleTagService {
     private readonly tagService: TagService,
 
     private readonly em: EntityManager,
-  ) {}
+  ) { }
 
   async create(
     articleTagPayload: ArticleTagPayload,
@@ -66,10 +66,17 @@ export class ArticleTagService {
 
   async findByTagId(tagId: number) {
     const articleTags = await this.articleTagRepository.findByTagId(tagId);
-    const articleTagResponse: ArticleTagResponse[] = articleTags.map(
-      (tag) => new ArticleTagResponse(tag),
-    );
-    return articleTagResponse;
+    const articleTagResponses: ArticleTagResponse[] = [];
+
+    for (const articleTag of articleTags) {
+      const article = await this.articleService.findOne(articleTag.article.id);
+      const tag = await this.tagService.findOne(articleTag.tag.id);
+      const articleTagResponse = new ArticleTagResponse(articleTag);
+      articleTagResponse.article = article;
+      articleTagResponse.tag = tag;
+      articleTagResponses.push(articleTagResponse);
+    }
+    return articleTagResponses;
   }
 
   async findOne(id: number) {
