@@ -7,6 +7,7 @@ import {
 } from '@mikro-orm/core';
 import CommentReplyPayload from 'src/dtos/payload/comment-reply.payload';
 import { Comment } from './comment.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class CommentReply {
@@ -18,6 +19,9 @@ export class CommentReply {
 
   @ManyToOne()
   comment: Comment;
+
+  @ManyToOne()
+  user: User;
 
   @Property({ onCreate: () => new Date() })
   createdAt: Date;
@@ -31,6 +35,10 @@ export class CommentReply {
     commentReply.comment = Reference.createNakedFromPK(
       Comment,
       commentReplyPayload.commentId,
+    );
+    commentReply.user = Reference.createNakedFromPK(
+      User,
+      commentReplyPayload.userId,
     );
     return commentReply;
   }

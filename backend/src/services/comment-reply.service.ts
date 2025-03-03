@@ -15,7 +15,7 @@ export class CommentReplyService {
   ): Promise<CommentReplyResponse> {
     const commentReply = CommentReply.create(commentReplyPayload);
     const response = await this.commentReplyRepository.create(commentReply);
-    const commentReplyResponse: CommentReplyResponse = response;
+    const commentReplyResponse = new CommentReplyResponse(response);
     return commentReplyResponse;
   }
 
