@@ -22,9 +22,9 @@ export class ArticleController {
     return this.articleService.create(articlePayload);
   }
 
-  @Get('/pages/:pageAtual')
-  getAll(@Param('pageAtual') pageAtual: string): Promise<{ articleResponse: ArticleResponse[], total: number }> {
-    return this.articleService.findAll(Number(pageAtual));
+  @Get('/pages/:currentPage')
+  getAll(@Param('currentPage') currentPage: string): Promise<{ articleResponse: ArticleResponse[], total: number }> {
+    return this.articleService.findAll(Number(currentPage));
   }
 
   @Get(':id')

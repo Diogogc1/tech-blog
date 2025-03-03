@@ -15,8 +15,8 @@ export default class ArticleRepository {
     return article;
   }
 
-  async findAll(pageAtual: number): Promise<[Article[], number]> {
-    return this.articleRepo.findAndCount({ status: true }, { limit: 3, offset: 3 * (pageAtual - 1) });
+  async findAll(currentPage: number): Promise<[Article[], number]> {
+    return this.articleRepo.findAndCount({ status: true }, { limit: 3, offset: 3 * (currentPage - 1) });
   }
 
   async findOne(id: number): Promise<Article | null> {

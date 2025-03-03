@@ -40,8 +40,8 @@ export class ArticleService {
     return articleResponse;
   }
 
-  async findAll(pageAtual: number): Promise<{ articleResponse: ArticleResponse[], total: number }> {
-    const [articles, total] = await this.articleRepository.findAll(pageAtual);
+  async findAll(currentPage: number): Promise<{ articleResponse: ArticleResponse[], total: number }> {
+    const [articles, total] = await this.articleRepository.findAll(currentPage);
     const articleResponse: ArticleResponse[] = articles.map(
       (article) => new ArticleResponse(article),
     );
