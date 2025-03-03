@@ -1,12 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export default class UserPayload {
-  @ApiProperty()
+  @ApiProperty({ type: String })
+  @IsString()
+  @IsNotEmpty()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
+  @IsString()
+  @IsNotEmpty()
   email: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
+  @IsString()
+  @IsNotEmpty()
   password: string;
 }

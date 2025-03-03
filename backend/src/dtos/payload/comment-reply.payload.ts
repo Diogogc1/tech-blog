@@ -1,12 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export default class CommentReplyPayload {
-  @ApiProperty()
+  @ApiProperty({ type: String })
+  @IsString()
+  @IsNotEmpty()
   content: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: Number })
+  @IsNumber()
+  @IsNotEmpty()
   userId: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: Number })
+  @IsNumber()
+  @IsNotEmpty()
   commentId: number;
 }
