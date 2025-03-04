@@ -4,6 +4,8 @@ import config from 'mikro-orm.config';
 import { AppController } from './controllers/app.controller';
 import { TagController } from './controllers/tag.controller';
 import { UserController } from './controllers/user.controller';
+import { NotificationController } from './controllers/notification.controller';
+import NotificationRepository from './repositories/notification.repository';
 import ArticleTagRepository from './repositories/article-tag.repository';
 import ArticleRepository from './repositories/article.repository';
 import TagRepository from './repositories/tag.repository';
@@ -13,6 +15,7 @@ import { ArticleTagService } from './services/article-tag.service';
 import { ArticleService } from './services/article.service';
 import { TagService } from './services/tag.service';
 import { UserService } from './services/user.service';
+import { NotificationService } from './services/notification.service';
 import { ArticleController } from './controllers/article.controller';
 import { ArticleTagController } from './controllers/article-tag.controller';
 import { AuthModule } from './auth.module';
@@ -25,6 +28,7 @@ import { AuthModule } from './auth.module';
     TagController,
     ArticleController,
     ArticleTagController,
+    NotificationController,
   ],
   providers: [
     AppService,
@@ -32,11 +36,13 @@ import { AuthModule } from './auth.module';
     TagService,
     ArticleService,
     ArticleTagService,
+    NotificationService,
 
     UserRepository,
     TagRepository,
     ArticleRepository,
     ArticleTagRepository,
+    NotificationRepository,
   ],
 })
 export class AppModule {}
