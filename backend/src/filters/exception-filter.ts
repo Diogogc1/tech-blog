@@ -1,10 +1,9 @@
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   NotFoundException,
 } from '@nestjs/common';
-import { Response } from 'express';
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 @Catch(NotFoundException)

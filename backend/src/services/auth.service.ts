@@ -10,7 +10,7 @@ export class AuthService {
     private jwtService: JwtService
   ) { }
 
-  async login(authPayload: AuthPayload): Promise<any> {
+  async login(authPayload: AuthPayload): Promise<{access_token: string }> {
     const user = await this.userService.findByEmail(authPayload.email);
     if (!user || !(await bcrypt.compare(authPayload.password, user.password))) {
       throw new UnauthorizedException();
