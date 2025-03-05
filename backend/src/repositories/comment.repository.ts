@@ -1,34 +1,39 @@
 import { EntityManager, EntityRepository } from '@mikro-orm/core'
 import { Injectable } from '@nestjs/common'
 import { Comment } from 'src/entities/comment.entity'
+import CommentReplyRepository from './comment-reply.repository'
 
 @Injectable()
 export default class CommentRepository {
-  private commentRepo: EntityRepository<Comment>
+  private commentRepository: EntityRepository<Comment>
 
-  constructor(private readonly em: EntityManager) {
-    this.commentRepo = this.em.getRepository(Comment)
+  constructor(
+    private readonly em: EntityManager,
+    private readonly commentReplyRepository: CommentReplyRepository
+  ) {
+    this.commentRepository = this.em.getRepository(Comment)
   }
 
   async create(data: Comment): Promise<Comment> {
-    const comment = this.commentRepo.create(data)
+    const comment = this.commentRepository.create(data)
     await this.em.persistAndFlush(comment)
     return comment
   }
 
   async findAll(): Promise<Comment[]> {
-    return this.commentRepo.find({})
+    return this.commentRepository.find({})
   }
 
   async findOne(id: number): Promise<Comment | null> {
-    return this.commentRepo.findOne({ id })
+    return this.commentRepository.findOne({ id })
   }
 
   async update(id: number, data: Comment): Promise<number> {
-    return this.commentRepo.nativeUpdate({ id, status: true }, data)
+    return this.commentRepository.nativeUpdate({ id, status: true }, data)
   }
 
   async delete(id: number): Promise<number> {
-    return this.commentRepo.nativeUpdate({ id, status: true }, { status: false })
+    await this.commentReplyRepository.deleteByCommentId(id)
+    return this.commentRepository.nativeUpdate({ id, status: true }, { status: false })
   }
 }

@@ -35,4 +35,8 @@ export default class CommentReplyRepository {
   async delete(id: number): Promise<number> {
     return this.commentReplyRepo.nativeUpdate({ id, status: true }, { status: false })
   }
+
+  async deleteByCommentId(commentId: number): Promise<number> {
+    return this.commentReplyRepo.nativeUpdate({ comment: commentId, status: true }, { status: false })
+  }
 }
