@@ -4,17 +4,20 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import CommentResponse from 'src/dtos/response/comment.response';
 import { Comment } from 'src/entities/comment.entity';
 import { CommentReplyService } from './comment-reply.service';
+import { notificationGateway } from 'src/gateways/notification-gateway';
 
 @Injectable()
 export class CommentService {
   constructor(
     private readonly commentRepository: CommentRepository,
     private readonly commentReplyService: CommentReplyService,
+    private readonly notificationGateway: notificationGateway,
   ) {}
 
   async create(commentPayload: CommentPayload): Promise<CommentResponse> {
     const comment = Comment.create(commentPayload);
     const response = await this.commentRepository.create(comment);
+    await this.notificationGateway.sendNotification('Novo comentário no seu post');
     const commentResponse: CommentResponse = response;
     return commentResponse;
   }

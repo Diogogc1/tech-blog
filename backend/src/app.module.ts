@@ -19,9 +19,10 @@ import { NotificationService } from './services/notification.service';
 import { ArticleController } from './controllers/article.controller';
 import { ArticleTagController } from './controllers/article-tag.controller';
 import { AuthModule } from './auth.module';
+import { GatewayModule } from './gateways/gateway.module';
 
 @Module({
-  imports: [MikroOrmModule.forRoot(config), AuthModule],
+  imports: [MikroOrmModule.forRoot(config), AuthModule, GatewayModule],
   controllers: [
     AppController,
     UserController,

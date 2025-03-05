@@ -10,11 +10,12 @@ import { CommentReply } from 'src/entities/comment-reply.entity';
 import { Tag } from 'src/entities/tag.entity';
 import { User } from 'src/entities/user.entity';
 import { Comment } from 'src/entities/comment.entity';
+import { Notification } from 'src/entities/notification.entity';
 
 dotenv.config();
 
 const config: MikroOrmModuleSyncOptions = {
-  entities: [Article, ArticleTag, Comment, CommentReply, Tag, User],
+  entities: [Article, ArticleTag, Comment, CommentReply, Tag, User, Notification],
   dbName: process.env.DB_NAME,
   extensions: [Migrator, EntityGenerator, SeedManager],
   user: process.env.DB_USER,
