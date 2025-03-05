@@ -2,15 +2,20 @@ import { Injectable, NotFoundException } from '@nestjs/common'
 import CommentReplyPayload from 'src/dtos/payload/comment-reply.payload'
 import CommentReplyResponse from 'src/dtos/response/comment-reply.response'
 import { CommentReply } from 'src/entities/comment-reply.entity'
+import { notificationGateway } from 'src/gateways/notification-gateway'
 import CommentReplyRepository from 'src/repositories/comment-reply.repository'
 
 @Injectable()
 export class CommentReplyService {
-  constructor(private readonly commentReplyRepository: CommentReplyRepository) {}
+  constructor(
+    private readonly commentReplyRepository: CommentReplyRepository,
+    private readonly notificationGateway: notificationGateway
+  ) {}
 
   async create(commentReplyPayload: CommentReplyPayload): Promise<CommentReplyResponse> {
     const commentReply = CommentReply.create(commentReplyPayload)
     const response = await this.commentReplyRepository.create(commentReply)
+    this.notificationGateway.sendNotification('Novo comentário no seu post')
     const commentReplyResponse = new CommentReplyResponse(response)
     return commentReplyResponse
   }
