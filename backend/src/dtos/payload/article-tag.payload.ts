@@ -1,14 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger'
+import { IsNotEmpty, IsNumber } from 'class-validator'
 
 export default class ArticleTagPayload {
   @ApiProperty({ type: Number })
   @IsNumber()
   @IsNotEmpty()
-  articleId: number;
+  articleId: number
 
   @ApiProperty({ type: Number })
   @IsNumber()
   @IsNotEmpty()
-  tagId: number;
+  tagId: number
 }

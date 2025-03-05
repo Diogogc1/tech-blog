@@ -1,34 +1,34 @@
-import {
-  Entity,
-  ManyToOne,
-  PrimaryKey,
-  Property,
-  Reference,
-} from '@mikro-orm/core';
-import { User } from './user.entity';
-import CommentPayload from 'src/dtos/payload/comment.payload';
+import { Entity, ManyToOne, PrimaryKey, Property, Reference } from '@mikro-orm/core'
+import CommentPayload from 'src/dtos/payload/comment.payload'
+import { Article } from './article.entity'
+import { User } from './user.entity'
 
 @Entity()
 export class Comment {
   @PrimaryKey({ autoincrement: true })
-  id!: number;
+  id!: number
 
   @Property({ type: 'text' })
-  content: string;
+  content: string
 
   @ManyToOne()
-  user: User;
+  user: User
+
+  @ManyToOne()
+  article: Article
 
   @Property({ onCreate: () => new Date() })
-  createdAt: Date;
+  createdAt: Date
 
   @Property({ default: true })
-  status: boolean;
+  status: boolean
+
+  constructor(commentPayload: CommentPayload) {
+    this.content = commentPayload.content
+    this.user = Reference.createNakedFromPK(User, commentPayload.userId)
+  }
 
   static create(commentPayload: CommentPayload): Comment {
-    const comment = new Comment();
-    comment.content = commentPayload.content;
-    comment.user = Reference.createNakedFromPK(User, commentPayload.userId);
-    return comment;
+    return new Comment(commentPayload)
   }
 }

@@ -1,65 +1,57 @@
-import CommentReplyPayload from 'src/dtos/payload/comment-reply.payload';
-import CommentReplyRepository from 'src/repositories/comment-reply.repository';
-import { Injectable, NotFoundException } from '@nestjs/common';
-import CommentReplyResponse from 'src/dtos/response/comment-reply.response';
-import { CommentReply } from 'src/entities/comment-reply.entity';
+import { Injectable, NotFoundException } from '@nestjs/common'
+import CommentReplyPayload from 'src/dtos/payload/comment-reply.payload'
+import CommentReplyResponse from 'src/dtos/response/comment-reply.response'
+import { CommentReply } from 'src/entities/comment-reply.entity'
+import CommentReplyRepository from 'src/repositories/comment-reply.repository'
 
 @Injectable()
 export class CommentReplyService {
-  constructor(
-    private readonly commentReplyRepository: CommentReplyRepository,
-  ) {}
+  constructor(private readonly commentReplyRepository: CommentReplyRepository) {}
 
-  async create(
-    commentReplyPayload: CommentReplyPayload,
-  ): Promise<CommentReplyResponse> {
-    const commentReply = CommentReply.create(commentReplyPayload);
-    const response = await this.commentReplyRepository.create(commentReply);
-    const commentReplyResponse = new CommentReplyResponse(response);
-    return commentReplyResponse;
+  async create(commentReplyPayload: CommentReplyPayload): Promise<CommentReplyResponse> {
+    const commentReply = CommentReply.create(commentReplyPayload)
+    const response = await this.commentReplyRepository.create(commentReply)
+    const commentReplyResponse = new CommentReplyResponse(response)
+    return commentReplyResponse
   }
 
   async findAll(): Promise<CommentReplyResponse[]> {
-    const commentReplies = await this.commentReplyRepository.findAll();
+    const commentReplies = await this.commentReplyRepository.findAll()
     const commentReplyResponses: CommentReplyResponse[] = commentReplies.map(
-      (commentReply) => new CommentReplyResponse(commentReply),
-    );
-    return commentReplyResponses;
+      (commentReply) => new CommentReplyResponse(commentReply)
+    )
+    return commentReplyResponses
   }
 
   async findAllByCommentId(commentId: number): Promise<CommentReplyResponse[]> {
-    const commentReplies =
-      await this.commentReplyRepository.findAllByCommentId(commentId);
+    const commentReplies = await this.commentReplyRepository.findAllByCommentId(commentId)
     const commentReplyResponses: CommentReplyResponse[] = commentReplies.map(
-      (commentReply) => new CommentReplyResponse(commentReply),
-    );
-    return commentReplyResponses;
+      (commentReply) => new CommentReplyResponse(commentReply)
+    )
+    return commentReplyResponses
   }
 
   async findOne(id: number): Promise<CommentReplyResponse> {
-    const commentReply = await this.commentReplyRepository.findOne(id);
+    const commentReply = await this.commentReplyRepository.findOne(id)
 
     if (!commentReply) {
-      throw new NotFoundException(`CommentReply with ID ${id} not found`);
+      throw new NotFoundException(`CommentReply with ID ${id} not found`)
     }
 
-    const commentReplyResponse = new CommentReplyResponse(commentReply);
-    return commentReplyResponse;
+    const commentReplyResponse = new CommentReplyResponse(commentReply)
+    return commentReplyResponse
   }
 
-  async update(
-    id: number,
-    commentReplyPayload: CommentReplyPayload,
-  ): Promise<number> {
-    const commentReply = CommentReply.create(commentReplyPayload);
-    await this.findOne(id);
+  async update(id: number, commentReplyPayload: CommentReplyPayload): Promise<number> {
+    const commentReply = CommentReply.create(commentReplyPayload)
+    await this.findOne(id)
 
-    return await this.commentReplyRepository.update(id, commentReply);
+    return await this.commentReplyRepository.update(id, commentReply)
   }
 
   async delete(id: number): Promise<number> {
-    await this.findOne(id);
+    await this.findOne(id)
 
-    return await this.commentReplyRepository.delete(id);
+    return await this.commentReplyRepository.delete(id)
   }
 }

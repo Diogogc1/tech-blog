@@ -1,33 +1,31 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
-import { Tag } from './tag.entity';
-import { Article } from './article.entity';
-import ArticleTagPayload from 'src/dtos/payload/article-tag.payload';
+import { Entity, ManyToOne, PrimaryKey, Property, Reference } from '@mikro-orm/core'
+import ArticleTagPayload from 'src/dtos/payload/article-tag.payload'
+import { Article } from './article.entity'
+import { Tag } from './tag.entity'
 
 @Entity()
 export class ArticleTag {
   @PrimaryKey({ autoincrement: true })
-  id: number;
+  id: number
 
   @ManyToOne()
-  tag: Tag;
+  tag: Tag
 
   @ManyToOne()
-  article: Article;
+  article: Article
 
   @Property({ default: true })
-  status: boolean;
+  status: boolean
 
   @Property({ onCreate: () => new Date() })
-  createdAt: Date;
+  createdAt: Date
 
-  static create(
-    articleTagPayload: ArticleTagPayload,
-    article: Article,
-    tag: Tag,
-  ): ArticleTag {
-    const articleTag = new ArticleTag();
-    articleTag.tag = tag;
-    articleTag.article = article;
-    return articleTag;
+  constructor(articleTagPayload: ArticleTagPayload) {
+    this.tag = Reference.createNakedFromPK(Tag, articleTagPayload.tagId)
+    this.article = Reference.createNakedFromPK(Article, articleTagPayload.articleId)
+  }
+
+  static create(articleTagPayload: ArticleTagPayload): ArticleTag {
+    return new ArticleTag(articleTagPayload)
   }
 }

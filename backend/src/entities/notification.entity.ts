@@ -1,31 +1,34 @@
-import { Entity, ManyToOne, PrimaryKey, Property, Reference } from "@mikro-orm/core";
-import { User } from "./user.entity";
+import { Entity, ManyToOne, PrimaryKey, Property, Reference } from '@mikro-orm/core'
+import notificationPayload from 'src/dtos/payload/notification.payload'
+import { User } from './user.entity'
 
 @Entity()
 export class Notification {
   @PrimaryKey({ autoincrement: true })
-  id!: number;
+  id!: number
 
   @Property({ type: 'text' })
-  title: string;
+  title: string
 
   @Property({ type: 'text' })
-  content: string;
+  content: string
 
   @ManyToOne()
-  user: User;
+  user: User
 
   @Property({ onCreate: () => new Date() })
-  createdAt: Date;
+  createdAt: Date
 
   @Property({ default: true })
-  status: boolean;
+  status: boolean
 
-  static create(notificationPayload: any): Notification {
-    const notification = new Notification();
-    notification.title = notificationPayload.title;
-    notification.content = notificationPayload.content;
-    notification.user = Reference.createNakedFromPK(User, notificationPayload.userId);
-    return notification;
+  constructor(notificationPayload: notificationPayload) {
+    this.title = notificationPayload.title
+    this.content = notificationPayload.content
+    this.user = Reference.createNakedFromPK(User, notificationPayload.userId)
+  }
+
+  static create(notificationPayload: notificationPayload): Notification {
+    return new Notification(notificationPayload)
   }
 }

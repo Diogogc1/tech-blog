@@ -1,23 +1,25 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
-import TagPayload from 'src/dtos/payload/tag.payload';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import TagPayload from 'src/dtos/payload/tag.payload'
 
 @Entity()
 export class Tag {
   @PrimaryKey({ autoincrement: true })
-  id: number;
+  id: number
 
   @Property()
-  name: string;
+  name: string
 
   @Property({ onCreate: () => new Date() })
-  createdAt: Date;
+  createdAt: Date
 
   @Property({ default: true })
-  status: boolean;
+  status: boolean
+
+  constructor(tagPayload: TagPayload) {
+    this.name = tagPayload.name
+  }
 
   static create(tagPayload: TagPayload): Tag {
-    const tag = new Tag();
-    tag.name = tagPayload.name;
-    return tag;
+    return new Tag(tagPayload)
   }
 }

@@ -1,14 +1,18 @@
-import { Property } from "@mikro-orm/core";
-import { IsNotEmpty, IsString } from "class-validator";
+import { Property } from '@mikro-orm/core'
+import { IsNotEmpty, IsString } from 'class-validator'
 
-export default class notificationPayload{
+export default class notificationPayload {
   @Property({ type: String })
   @IsString()
   @IsNotEmpty()
-  title: string;
+  title: string
 
   @Property({ type: String })
   @IsString()
   @IsNotEmpty()
-  content: string;
+  content: string
+
+  @Property({ type: Number })
+  @IsNotEmpty()
+  userId: number
 }

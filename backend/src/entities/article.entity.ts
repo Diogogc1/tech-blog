@@ -1,38 +1,34 @@
-import {
-  Entity,
-  ManyToOne,
-  PrimaryKey,
-  Property,
-  Reference,
-} from '@mikro-orm/core';
-import { User } from './user.entity';
-import ArticlePayload from 'src/dtos/payload/article.payload';
+import { Entity, ManyToOne, PrimaryKey, Property, Reference } from '@mikro-orm/core'
+import { User } from './user.entity'
+import ArticlePayload from 'src/dtos/payload/article.payload'
 
 @Entity()
 export class Article {
   @PrimaryKey({ autoincrement: true })
-  id!: number;
+  id!: number
 
   @Property()
-  title: string;
+  title: string
 
   @Property({ type: 'text' })
-  content: string;
+  content: string
 
   @ManyToOne()
-  author: User;
+  author: User
 
   @Property({ onCreate: () => new Date() })
-  createdAt: Date;
+  createdAt: Date
 
   @Property({ default: true })
-  status: boolean;
+  status: boolean
+
+  constructor(articlePayload: ArticlePayload) {
+    this.title = articlePayload.title
+    this.content = articlePayload.content
+    this.author = Reference.createNakedFromPK(User, articlePayload.authorId)
+  }
 
   static create(articlePayload: ArticlePayload): Article {
-    const article = new Article();
-    article.title = articlePayload.title;
-    article.content = articlePayload.content;
-    article.author = Reference.createNakedFromPK(User, articlePayload.authorId);
-    return article;
+    return new Article(articlePayload)
   }
 }

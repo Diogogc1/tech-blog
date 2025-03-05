@@ -1,25 +1,25 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { ArrayNotEmpty, IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger'
+import { ArrayNotEmpty, IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator'
 
 export default class ArticlePayload {
   @ApiProperty({ type: String })
   @IsString()
   @IsNotEmpty()
-  title: string;
+  title: string
 
   @ApiProperty({ type: String })
   @IsString()
   @IsNotEmpty()
-  content: string;
+  content: string
 
   @ApiProperty({ type: [Number] })
   @IsArray()
   @ArrayNotEmpty()
   @IsNumber({}, { each: true })
-  tags: number[];
+  tags: number[]
 
-  @ApiProperty({type: Number})
+  @ApiProperty({ type: Number })
   @IsNumber()
   @IsNotEmpty()
-  authorId: number;
+  authorId: number
 }
