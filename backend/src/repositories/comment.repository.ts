@@ -1,16 +1,12 @@
 import { EntityManager, EntityRepository } from '@mikro-orm/core'
 import { Injectable } from '@nestjs/common'
 import { Comment } from 'src/entities/comment.entity'
-import CommentReplyRepository from './comment-reply.repository'
 
 @Injectable()
 export default class CommentRepository {
   private commentRepository: EntityRepository<Comment>
 
-  constructor(
-    private readonly em: EntityManager,
-    private readonly commentReplyRepository: CommentReplyRepository
-  ) {
+  constructor(private readonly em: EntityManager) {
     this.commentRepository = this.em.getRepository(Comment)
   }
 
@@ -33,7 +29,6 @@ export default class CommentRepository {
   }
 
   async delete(id: number): Promise<number> {
-    await this.commentReplyRepository.deleteByCommentId(id)
     return this.commentRepository.nativeUpdate({ id, status: true }, { status: false })
   }
 }

@@ -4,13 +4,11 @@ import CommentResponse from 'src/dtos/response/comment.response'
 import { Comment } from 'src/entities/comment.entity'
 import { notificationGateway } from 'src/gateways/notification-gateway'
 import CommentRepository from 'src/repositories/comment.repository'
-import { CommentReplyService } from './comment-reply.service'
 
 @Injectable()
 export class CommentService {
   constructor(
     private readonly commentRepository: CommentRepository,
-    private readonly commentReplyService: CommentReplyService,
     private readonly notificationGateway: notificationGateway
   ) {}
 
@@ -48,12 +46,6 @@ export class CommentService {
 
   async delete(id: number): Promise<number> {
     await this.findOne(id)
-
-    const replys = await this.commentReplyService.findAllByCommentId(id)
-
-    for (const reply of replys) {
-      await this.commentReplyService.delete(reply.id)
-    }
 
     return await this.commentRepository.delete(id)
   }

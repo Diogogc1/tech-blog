@@ -11,6 +11,6 @@ export default class ArticleResponse {
     this.id = article.id
     this.title = article.title
     this.content = article.content
-    this.author = article.author
+    this.author = article.user
   }
 }

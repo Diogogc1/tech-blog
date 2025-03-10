@@ -1,21 +1,20 @@
-import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
-import * as dotenv from 'dotenv';
-import { Migrator } from '@mikro-orm/migrations';
-import { EntityGenerator } from '@mikro-orm/entity-generator';
-import { SeedManager } from '@mikro-orm/seeder';
-import { Article } from 'src/entities/article.entity';
-import { ArticleTag } from 'src/entities/article-tag.entity';
-import { CommentReply } from 'src/entities/comment-reply.entity';
-import { Tag } from 'src/entities/tag.entity';
-import { User } from 'src/entities/user.entity';
-import { Comment } from 'src/entities/comment.entity';
-import { Notification } from 'src/entities/notification.entity';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql'
+import { MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs'
+import * as dotenv from 'dotenv'
+import { Migrator } from '@mikro-orm/migrations'
+import { EntityGenerator } from '@mikro-orm/entity-generator'
+import { SeedManager } from '@mikro-orm/seeder'
+import { Article } from 'src/entities/article.entity'
+import { ArticleTag } from 'src/entities/article-tag.entity'
+import { Tag } from 'src/entities/tag.entity'
+import { User } from 'src/entities/user.entity'
+import { Comment } from 'src/entities/comment.entity'
+import { Notification } from 'src/entities/notification.entity'
 
-dotenv.config();
+dotenv.config()
 
 const config: MikroOrmModuleSyncOptions = {
-  entities: [Article, ArticleTag, Comment, CommentReply, Tag, User, Notification],
+  entities: [Article, ArticleTag, Comment, Tag, User, Notification],
   dbName: process.env.DB_NAME,
   extensions: [Migrator, EntityGenerator, SeedManager],
   user: process.env.DB_USER,
@@ -25,6 +24,6 @@ const config: MikroOrmModuleSyncOptions = {
   driver: PostgreSqlDriver,
   debug: true,
   autoLoadEntities: true,
-};
+}
 
-export default config;
+export default config
