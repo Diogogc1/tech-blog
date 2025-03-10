@@ -1,4 +1,5 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, PrimaryKey, Property, OneToMany, Collection } from '@mikro-orm/core'
+import { ArticleTag } from './article-tag.entity'
 import TagPayload from 'src/dtos/payload/tag.payload'
 
 @Entity()
@@ -8,6 +9,9 @@ export class Tag {
 
   @Property()
   name: string
+
+  @OneToMany(() => ArticleTag, (articleTag) => articleTag.tag)
+  articles = new Collection<ArticleTag>(this)
 
   @Property({ onCreate: () => new Date() })
   createdAt: Date

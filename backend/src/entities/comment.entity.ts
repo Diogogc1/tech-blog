@@ -1,21 +1,25 @@
-import { Entity, ManyToOne, PrimaryKey, Property, Reference } from '@mikro-orm/core'
+import { Entity, ManyToOne, PrimaryKey, Property, Reference, OneToMany, Collection } from '@mikro-orm/core'
 import CommentPayload from 'src/dtos/payload/comment.payload'
 import { Article } from './article.entity'
+import { UserMention } from './user-mention.entity'
 import { User } from './user.entity'
 
 @Entity()
 export class Comment {
   @PrimaryKey({ autoincrement: true })
-  id!: number
+  id: number
 
   @Property({ type: 'text' })
   content: string
 
-  @ManyToOne()
+  @ManyToOne(() => User)
   user: User
 
-  @ManyToOne()
+  @ManyToOne(() => Article)
   article: Article
+
+  @OneToMany(() => UserMention, (userMention) => userMention.comment)
+  userMentions = new Collection<UserMention>(this)
 
   @Property({ onCreate: () => new Date() })
   createdAt: Date

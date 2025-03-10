@@ -13,7 +13,7 @@ export class Notification {
   @Property({ type: 'text' })
   content: string
 
-  @ManyToOne()
+  @ManyToOne(() => User)
   user: User
 
   @Property({ onCreate: () => new Date() })

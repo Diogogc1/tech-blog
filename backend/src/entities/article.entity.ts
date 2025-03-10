@@ -1,11 +1,12 @@
-import { Entity, ManyToOne, PrimaryKey, Property, Reference } from '@mikro-orm/core'
-import { User } from './user.entity'
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property, Reference } from '@mikro-orm/core'
 import ArticlePayload from 'src/dtos/payload/article.payload'
+import { ArticleTag } from './article-tag.entity'
+import { User } from './user.entity'
 
 @Entity()
 export class Article {
   @PrimaryKey({ autoincrement: true })
-  id!: number
+  id: number
 
   @Property()
   title: string
@@ -13,8 +14,11 @@ export class Article {
   @Property({ type: 'text' })
   content: string
 
-  @ManyToOne()
-  author: User
+  @ManyToOne(() => User)
+  user: User
+
+  @OneToMany(() => ArticleTag, (articleTag) => articleTag.article)
+  tags = new Collection<ArticleTag>(this)
 
   @Property({ onCreate: () => new Date() })
   createdAt: Date
@@ -25,7 +29,7 @@ export class Article {
   constructor(articlePayload: ArticlePayload) {
     this.title = articlePayload.title
     this.content = articlePayload.content
-    this.author = Reference.createNakedFromPK(User, articlePayload.authorId)
+    this.user = Reference.createNakedFromPK(User, articlePayload.authorId)
   }
 
   static create(articlePayload: ArticlePayload): Article {

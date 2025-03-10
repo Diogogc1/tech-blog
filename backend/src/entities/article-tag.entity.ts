@@ -8,10 +8,10 @@ export class ArticleTag {
   @PrimaryKey({ autoincrement: true })
   id: number
 
-  @ManyToOne()
+  @ManyToOne(() => Tag)
   tag: Tag
 
-  @ManyToOne()
+  @ManyToOne(() => Article)
   article: Article
 
   @Property({ default: true })
