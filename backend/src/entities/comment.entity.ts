@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryKey, Property, Reference, OneToMany, Collection } from '@mikro-orm/core'
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property, Reference } from '@mikro-orm/core'
 import CommentPayload from 'src/dtos/payload/comment.payload'
 import { Article } from './article.entity'
 import { UserMention } from './user-mention.entity'
@@ -18,6 +18,12 @@ export class Comment {
   @ManyToOne(() => Article)
   article: Article
 
+  @ManyToOne(() => Comment, { nullable: true })
+  parentComment?: Comment
+
+  @OneToMany(() => Comment, (comment) => comment.parentComment)
+  childComments = new Collection<Comment>(this)
+
   @OneToMany(() => UserMention, (userMention) => userMention.comment)
   userMentions = new Collection<UserMention>(this)
 
@@ -30,6 +36,9 @@ export class Comment {
   constructor(commentPayload: CommentPayload) {
     this.content = commentPayload.content
     this.user = Reference.createNakedFromPK(User, commentPayload.userId)
+    if (commentPayload.parentCommentId) {
+      this.parentComment = Reference.createNakedFromPK(Comment, commentPayload.parentCommentId)
+    }
   }
 
   static create(commentPayload: CommentPayload): Comment {

@@ -11,4 +11,8 @@ export default class CommentPayload {
   @IsNumber()
   @IsNotEmpty()
   userId: number
+
+  @ApiProperty({ type: Number })
+  @IsNumber()
+  parentCommentId?: number
 }
